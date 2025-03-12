@@ -1,11 +1,17 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Explore from "./Explore";
 import LoginSignup from "./LoginSignup";
 import About from "./About";
+import { initializePatternBackground } from "./utils/patternBackground"; 
 import logo from "./assets/logo1.png";
 
 function App() {
   const [currentPage, setCurrentPage] = useState("home");
+
+  useEffect(() => {
+    const cleanup = initializePatternBackground();
+    return cleanup;
+  }, []);
 
   const renderPage = () => {
     switch (currentPage) {
@@ -18,10 +24,12 @@ function App() {
       default:
         return (
           <div className="home-container">
+            <canvas id="bgCanvas" className="canvas-bg"></canvas> {/* Background Canvas */}
+            
             <header className="header">
               <div className="brand">
                 <div className="logo-container">
-                 <img src={logo} alt="ND" className="logo" />
+                  <img src={logo} alt="ND" className="logo" />
                 </div>
                 <h1><b>NAVIGATE DREAMS</b></h1>
               </div>
