@@ -37,7 +37,7 @@ const Explore = ({ setCurrentPage, setSelectedDestination }) => {
           onChange={(e) => setSearchQuery(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && handleSearch()}
         />
-        <button onClick={handleSearch} className="search-button">Search</button>
+        <button onClick={handleSearch} className="search-button">Go</button>
       </div>
 
       <h2>Suggested Destinations</h2>
