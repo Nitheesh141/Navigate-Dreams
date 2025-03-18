@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import Explore from "./Explore";
+import Itineraries from "./Itineraries";
 import LoginSignup from "./LoginSignup";
 import About from "./About";
 import { initializePatternBackground } from "./utils/patternBackground";
@@ -15,10 +16,23 @@ import baliImg from "./assets/bali.jpg";
 import sydneyImg from "./assets/sydney.jpg";
 import bangkokImg from "./assets/bangkok.jpg";
 
+const itinerariesData = {
+  Paris: ["Eiffel Tower", "Louvre Museum", "Notre-Dame Cathedral"],
+  London: ["Big Ben", "London Eye", "Buckingham Palace"],
+  NewYork: ["Statue of Liberty", "Times Square", "Central Park"],
+  Tokyo: ["Shibuya Crossing", "Tokyo Tower", "Senso-ji Temple"],
+  Rome: ["Colosseum", "Trevi Fountain", "Vatican City"],
+  Dubai: ["Burj Khalifa", "Palm Jumeirah", "Desert Safari"],
+  Bali: ["Ubud Rice Terraces", "Tanah Lot Temple", "Kuta Beach"],
+  Sydney: ["Sydney Opera House", "Bondi Beach", "Harbour Bridge"],
+  Bangkok: ["Grand Palace", "Wat Arun", "Floating Markets"],
+};
+
 function App() {
   const [currentPage, setCurrentPage] = useState("home");
   const [menuOpen, setMenuOpen] = useState(false);
   const [search, setSearch] = useState("");
+  const [selectedDestination, setSelectedDestination] = useState("");
 
   useEffect(() => {
     const cleanup = initializePatternBackground();
@@ -36,14 +50,19 @@ function App() {
 
   const handleSearch = () => {
     if (search.trim()) {
-      setCurrentPage("explore");
+      if (itinerariesData[search]) {
+        setSelectedDestination(search);
+        setCurrentPage("itineraries");
+      } else {
+        setCurrentPage("explore");
+      }
     }
   };
 
   const popularDestinations = [
     { name: "Paris", img: parisImg },
     { name: "London", img: londonImg },
-    { name: "New York", img: newYorkImg },
+    { name: "NewYork", img: newYorkImg },
     { name: "Tokyo", img: tokyoImg },
     { name: "Rome", img: romeImg },
     { name: "Dubai", img: dubaiImg },
@@ -55,7 +74,9 @@ function App() {
   const renderPage = () => {
     switch (currentPage) {
       case "explore":
-        return <Explore searchQuery={search} setCurrentPage={changePage} />;
+        return <Explore setCurrentPage={changePage} setSelectedDestination={setSelectedDestination} />;
+      case "itineraries":
+        return <Itineraries selectedDestination={selectedDestination} setCurrentPage={changePage} />;
       case "login":
         return <LoginSignup setCurrentPage={changePage} />;
       case "about":
@@ -99,13 +120,12 @@ function App() {
                 <button onClick={handleSearch} className="search-button">Go</button>
               </div>
 
-              
               <h2>Popular Destinations</h2>
               <div className="popular-places">
                 {popularDestinations.map((place, index) => (
                   <div key={index} className="destination-card" onClick={() => {
-                    setSearch(place.name);
-                    setCurrentPage("explore");
+                    setSelectedDestination(place.name);
+                    setCurrentPage("itineraries");
                   }}>
                     <img src={place.img} alt={place.name} className="destination-image" />
                     <div className="destination-name">{place.name}</div>
