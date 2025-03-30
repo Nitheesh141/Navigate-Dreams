@@ -267,7 +267,7 @@
   outline: none;
 }
 
-.search-button {
+/* .search-button {
   position: absolute;
   right: 10px;
   background: none;
@@ -275,7 +275,7 @@
   font-size: 22px;
   cursor: pointer;
   color: #646464e8;
-}
+} */
 
 .search-button:hover {
   color: #007bff;
