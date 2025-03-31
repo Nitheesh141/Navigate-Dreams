@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import "./itineraries.css";
+import "./Itineraries.css";
 const itinerariesData = {
     paris: {
         locations: [
