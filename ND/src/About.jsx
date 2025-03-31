@@ -1,11 +1,14 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
-const About = ({ setCurrentPage }) => {
+const About = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="page-container">
       <h1>About Us</h1>
       <p>Learn more about Navigate Dreams.</p>
-      <button onClick={() => setCurrentPage("home")}>Back to Home</button>
+      <button onClick={() => navigate("/")}>Back to Home</button>
     </div>
   );
 };

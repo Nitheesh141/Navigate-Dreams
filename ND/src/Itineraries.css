@@ -1,0 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.itineraries-container {
+  background: linear-gradient(to right, #005a64, #80d4c7);
+  min-height: 100vh;
+  font-family: 'Poppins', sans-serif;
+  text-align: center;
+  padding: 80px 20px 0px;
+  color: white;
+}
+
+.itinerary-title {
+  font-size: 30px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+.itinerary-item {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  background: rgba(255, 255, 255, 0.15);
+  padding: 15px;
+  margin: 10px auto;
+  width: 50%;
+  border-radius: 10px;
+  font-size: 18px;
+  transition: background 0.3s ease, transform 0.2s ease-in-out;
+  cursor: pointer;
+  font-weight: bold;
+  text-transform: capitalize;
+}
+
+.itinerary-item input[type="checkbox"] {
+  width: 22px;
+  height: 22px;
+  margin-right: 15px;
+  cursor: pointer;
+  transform: scale(1.2);
+}
+
+.itinerary-item:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.05);
+}
+
+.itinerary-item.selected {
+  background: #ffcc00;
+  color: #333;
+  transform: scale(1.1);
+}
+
+@media (max-width: 768px) {
+  .itinerary-item {
+    width: 85%;
+  }
+}

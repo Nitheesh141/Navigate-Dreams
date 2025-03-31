@@ -1,12 +1,14 @@
 import React, { useState } from "react";
-import "./App.css";
+import { useNavigate } from "react-router-dom";
+import "./Login.css";
 
-const LoginSignup = ({ setCurrentPage }) => {
+const LoginSignup = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -20,7 +22,7 @@ const LoginSignup = ({ setCurrentPage }) => {
     }
     setError("");
     alert(isLogin ? "Login Successful!" : "Signup Successful!");
-    setCurrentPage("home");
+    navigate("/");
   };
 
   return (

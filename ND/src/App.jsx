@@ -1,4 +1,6 @@
+import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
+import "./App.css";
 import Explore from "./Explore";
 import Itineraries from "./Itineraries";
 import LoginSignup from "./LoginSignup";
@@ -28,33 +30,22 @@ const itinerariesData = {
   Bangkok: ["Grand Palace", "Wat Arun", "Floating Markets"],
 };
 
-function App() {
-  const [currentPage, setCurrentPage] = useState("home");
-  const [menuOpen, setMenuOpen] = useState(false);
+function Home() {
   const [search, setSearch] = useState("");
-  const [selectedDestination, setSelectedDestination] = useState("");
+  const [menuOpen, setMenuOpen] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const cleanup = initializePatternBackground();
     return cleanup;
-  }, [currentPage]);
-
-  const toggleMenu = () => {
-    setMenuOpen(!menuOpen);
-  };
-
-  const changePage = (page) => {
-    setCurrentPage(page);
-    setMenuOpen(false);
-  };
+  }, []);
 
   const handleSearch = () => {
     if (search.trim()) {
       if (itinerariesData[search]) {
-        setSelectedDestination(search);
-        setCurrentPage("itineraries");
+        navigate(`/itineraries/${search}`);
       } else {
-        setCurrentPage("explore");
+        navigate("/explore");
       }
     }
   };
@@ -71,74 +62,77 @@ function App() {
     { name: "Bangkok", img: bangkokImg }
   ];
 
-  const renderPage = () => {
-    switch (currentPage) {
-      case "explore":
-        return <Explore setCurrentPage={changePage} setSelectedDestination={setSelectedDestination} />;
-      case "itineraries":
-        return <Itineraries selectedDestination={selectedDestination} setCurrentPage={changePage} />;
-      case "login":
-        return <LoginSignup setCurrentPage={changePage} />;
-      case "about":
-        return <About setCurrentPage={changePage} />;
-      default:
-        return (
-          <div className="home-container">
-            <canvas id="bgCanvas" className="canvas-bg"></canvas>
+  return (
+    <div className="home-container">
+      <canvas id="bgCanvas" className="canvas-bg"></canvas>
 
-            <header className="header">
-              <div className="brand">
-                <div className="logo-container">
-                  <img src={logo} alt="ND" className="logo" />
-                </div>
-                <h1><b>NAVIGATE DREAMS</b></h1>
-              </div>
-
-              <button className="menu-button" onClick={toggleMenu}>☰</button>
-
-              <nav className={`nav ${menuOpen ? "open" : ""}`}>
-                <ul className="nav-links">
-                  <li><button onClick={() => changePage("home")}><b>HOME</b></button></li>
-                  <li><button onClick={() => changePage("explore")}><b>EXPLORE</b></button></li>
-                  <li><button onClick={() => changePage("login")}><b>LOGIN</b></button></li>
-                  <li><button onClick={() => changePage("about")}><b>ABOUT</b></button></li>
-                </ul>
-              </nav>
-            </header>
-
-            <section className="hero">
-              <h2>Plan Your Next Adventure</h2>
-              <p>Discover top destinations, create itineraries, and make your trips memorable !!</p>
-              <div className="search-box">
-                <input
-                  type="text"
-                  placeholder="Search places..."
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-                />
-                <button onClick={handleSearch} className="search-button">Go</button>
-              </div>
-
-              <h2>Popular Destinations</h2>
-              <div className="popular-places">
-                {popularDestinations.map((place, index) => (
-                  <div key={index} className="destination-card" onClick={() => {
-                    setSelectedDestination(place.name);
-                    setCurrentPage("itineraries");
-                  }}>
-                    <img src={place.img} alt={place.name} className="destination-image" />
-                    <div className="destination-name">{place.name}</div>
-                  </div>
-                ))}
-              </div>
-            </section>
+      {/* Header */}
+      <header className="header">
+        <div className="brand">
+          <div className="logo-container">
+            <img src={logo} alt="ND" className="logo" />
           </div>
-        );  
-    }
-  };
+          <h1><b>NAVIGATE DREAMS</b></h1>
+        </div>
 
-  return <>{renderPage()}</>;
+        {/* Menu Button */}
+        <button className="menu-button" onClick={() => setMenuOpen(!menuOpen)}>☰</button>
+
+        {/* Navigation Bar */}
+        <nav className={`nav ${menuOpen ? "open" : ""}`}>
+          <ul className="nav-links">
+            <li><button onClick={() => navigate("/")}><b>HOME</b></button></li>
+            <li><button onClick={() => navigate("/explore")}><b>EXPLORE</b></button></li>
+            <li><button onClick={() => navigate("/login")}><b>LOGIN</b></button></li>
+            <li><button onClick={() => navigate("/about")}><b>ABOUT</b></button></li>
+          </ul>
+        </nav>
+      </header>
+
+      {/* Hero Section */}
+      <section className="hero">
+        <h2>Plan Your Next Adventure</h2>
+        <p>Discover top destinations, create itineraries, and make your trips memorable !!</p>
+
+        {/* Search Box */}
+        <div className="search-box">
+          <input
+            type="text"
+            placeholder="Search places..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+          />
+          <button onClick={handleSearch} className="search-button">Go</button>
+        </div>
+
+        {/* Popular Destinations */}
+        <h2>Popular Destinations</h2>
+        <div className="popular-places">
+          {popularDestinations.map((place, index) => (
+            <div key={index} className="destination-card" onClick={() => navigate(`/itineraries/${place.name}`)}>
+              <img src={place.img} alt={place.name} className="destination-image" />
+              <div className="destination-name">{place.name}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+    </div>
+  );
+}
+
+function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/explore" element={<Explore />} />
+        <Route path="/itineraries/:destination" element={<Itineraries />} />
+        <Route path="/login" element={<LoginSignup />} />
+        <Route path="/about" element={<About />} />
+      </Routes>
+    </Router>
+  );
 }
 
 export default App;
