@@ -255,8 +255,8 @@ const itinerariesData = {
               Please try a valid location.
             </p>
             <div className="navigation-buttons">
-              <button className="nav-button" onClick={() => navigate("/explore")}>🔍 Back to Explore</button>
-              <button className="nav-button" onClick={() => navigate("/")}>🏠 Back to Home</button>
+              <button className="nav-button" onClick={() => navigate("/explore")}>🔍 Back to Explore Page</button>
+              <button className="nav-button" onClick={() => navigate("/")}>🏠 Back to Home Page</button>
             </div>
           </div>
         );
